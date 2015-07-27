@@ -159,25 +159,6 @@ public class MainActivity extends AppCompatActivity {
         mCityName = (TextView) findViewById(R.id.tv_city_name);//区域名字
 
 
-//        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setClickable(true);
-//        toolbar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("Click", "---------->Click");
-//                toolbar.setTitle("Click");
-//            }
-//        });
-//        setSupportActionBar(toolbar);
-
-
-
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-//        View customView = getLayoutInflater().inflate(R.layout.view_choose_aero, null);
-//        actionBar.setCustomView(customView);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nv_main_navigation);
 
