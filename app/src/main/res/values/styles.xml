@@ -1,8 +1,66 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppTheme.Base">
         <!-- Customize your theme here. -->
+
     </style>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
+
+        <item name="colorPrimary">@color/BS_ThemeColor_Blue</item>
+        <item name="colorPrimaryDark">@color/BS_StateBar</item>
+        <item name="android:windowBackground">@color/BS_WindowBackground</item>
+    </style>
+
+    <style name="PrimaryText_Black_87">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#DE000000</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="PrimaryText_Black_54">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#8A000000</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="PrimaryText_White_100">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="SecondText_Black_54">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#8A000000</item>
+    </style>
+
+    <style name="SecondText_Black_26">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#42000000</item>
+    </style>
+
+    <style name="SecondText_White_70">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#B2FFFFFF</item>
+    </style>
+
+    <style name="SecondText_White_30">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#4CFFFFFF</item>
+    </style>
+
+    <style name="AppBarText">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="BigTitleText">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="SpecialText_Sea_Green">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#0096A6</item>
+    </style>
+
 
 </resources>

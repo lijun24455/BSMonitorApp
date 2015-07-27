@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/BS_ThemeColor_Blue"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:id="@+id/iv_navi_drawer"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_menu"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:id="@+id/ll_choose_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tv_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/BigTitleText"
+            android:textColor="@color/BS_Text_White_100"
+            android:text="选择城市"
+            android:maxEms="7"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:layout_centerInParent="true"
+            />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_drop_down_white_36dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/ll_choose_area"/>
+
+</RelativeLayout>

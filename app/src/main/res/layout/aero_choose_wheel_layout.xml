@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_empty"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请选择地区："
+        android:paddingBottom="10dp"
+        android:textAppearance="@style/SpecialText_Sea_Green"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp">
+        <gmcc.bsmonitor.customviews.wheel.WheelView
+            android:id="@+id/wv_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <gmcc.bsmonitor.customviews.wheel.WheelView
+            android:id="@+id/wv_district"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_aero_choose_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="确定"
+        android:textAppearance="@style/PrimaryText_White_100"
+        android:background="@drawable/shape_button_confirm"
+        />
+
+</LinearLayout>

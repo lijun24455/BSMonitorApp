@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="BS_ThemeColor_Blue">#00BBD3</color>
+
+    <color name="BS_Alarm_OutOfService_Red">#DC5356</color>
+    <color name="BS_Alarm_PowerOff_Yellow">#FDD835</color>
+    <color name="BS_Alarm_Normal_Green">#54A452</color>
+    <color name="BS_Alarm_Overall_Blue">#43B3E4</color>
+
+    <color name="BS_TabIndicatorColor_Yellow">#FFFF8C</color>
+    <color name="BS_WindowBackground">#D8D8D8</color>
+    <color name="BS_StateBar">#0096A6</color>
+
+    <color name="BS_Alarm_OutOfService_Red_80">#CCDC5356</color>
+    <color name="BS_Alarm_PowerOff_Yellow_80">#CCFDD835</color>
+    <color name="BS_Alarm_Normal_Green_80">#CC54A452</color>
+    <color name="BS_Alarm_Overall_Blue_80">#CC43B3E4</color>
+
+    <color name="BS_SpecialTextColor">#009688</color>
+
+    <color name="BS_Text_Black_26">#42000000</color>
+
+    <color name="BS_Text_White_100">#FFFFFF</color>
+
+    <color name="BS_Shadow_Black_50">#80000000</color>
+
+    <color name="BS_Devide_Line_15">#26000000</color>
+
+    <color name="province_line_border">#C7C7C7</color>
+
+
+</resources>

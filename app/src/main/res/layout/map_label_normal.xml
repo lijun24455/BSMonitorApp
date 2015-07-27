@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="288dp"
+    android:layout_height="164dp"
+    android:background="@drawable/shape_empty">
+
+    <LinearLayout
+        android:layout_width="72dp"
+        android:layout_height="match_parent"
+        android:background="@color/BS_Alarm_Normal_Green">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="216dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="122dp"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_label_alarm_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="告警标题"
+                android:textAppearance="@style/BigTitleText"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/tv_label_alarm_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="定位地点"
+                android:textAppearance="@style/PrimaryText_Black_54"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前状态:"
+                    android:textAppearance="@style/PrimaryText_Black_54"/>
+                <TextView
+                    android:id="@+id/tv_label_alarm_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="等待派单"
+                    android:textAppearance="@style/PrimaryText_Black_54"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="故障时间:"
+                    android:textAppearance="@style/PrimaryText_Black_54"/>
+                <TextView
+                    android:id="@+id/label_alarm_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30分钟"
+                    android:textAppearance="@style/PrimaryText_Black_54"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/BS_Devide_Line_15"></LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_label_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="更多信息"
+                android:textSize="14sp"
+                android:textAppearance="@style/SpecialText_Sea_Green"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_height="56dp"
+    android:background="@color/BS_ThemeColor_Blue">
+
+    <ImageView
+        android:id="@+id/iv_app_bar_navi_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:src="@drawable/ic_arrow_back_white_36dp"/>
+
+    <TextView
+        android:id="@+id/tv_app_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="告警列表"
+        android:textColor="@color/BS_Text_White_100"
+        android:textAppearance="@style/BigTitleText"
+        />
+    <ImageView
+        android:id="@+id/iv_app_bar_action_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_menu"
+        android:scaleType="center"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
