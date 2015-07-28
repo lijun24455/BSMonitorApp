@@ -1,12 +1,15 @@
 package gmcc.bsmonitor.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import gmcc.bsmonitor.R;
 
@@ -19,7 +22,7 @@ import gmcc.bsmonitor.R;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,6 +31,18 @@ public class ListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //总览，正常，退服和断电的入口
+    private LinearLayout mBtnOverall;
+    private LinearLayout mBtnNormal;
+    private LinearLayout mBtnServiceOut;
+    private LinearLayout mBtnPowerOff;
+
+    //总览，正常，退服和断电的统计数字
+    private TextView mTvOverallNum;
+    private TextView mTvNormalNum;
+    private TextView mTvServiceOutNum;
+    private TextView mTvPowerOffNum;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,7 +81,25 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+
+        mBtnOverall = (LinearLayout) rootView.findViewById(R.id.ll_list_overall);
+        mBtnNormal = (LinearLayout) rootView.findViewById(R.id.ll_list_normal);
+        mBtnServiceOut = (LinearLayout) rootView.findViewById(R.id.ll_list_out_of_service);
+        mBtnPowerOff = (LinearLayout) rootView.findViewById(R.id.ll_list_power_off);
+
+        mBtnOverall.setOnClickListener(this);
+        mBtnNormal.setOnClickListener(this);
+        mBtnServiceOut.setOnClickListener(this);
+        mBtnPowerOff.setOnClickListener(this);
+
+        mTvOverallNum = (TextView) rootView.findViewById(R.id.tv_list_overall);
+        mTvNormalNum = (TextView) rootView.findViewById(R.id.tv_list_normal);
+        mTvServiceOutNum = (TextView) rootView.findViewById(R.id.tv_list_out_of_service);
+        mTvPowerOffNum = (TextView) rootView.findViewById(R.id.tv_list_power_off);
+
+        return rootView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +124,24 @@ public class ListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_list_overall:
+                //跳转
+                break;
+            case R.id.ll_list_normal:
+                break;
+            case R.id.ll_list_out_of_service:
+                break;
+            case R.id.ll_list_power_off:
+                break;
+            default:
+                break;
+        }
+
     }
 
     /**
