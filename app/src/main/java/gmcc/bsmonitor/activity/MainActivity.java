@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ListFragment mListFragment;
 
     private ImageView mNaviDrawer;
-    private LinearLayout mChooseAero;
+    private LinearLayout mChooseArea;
     private TextView mCityName;
 
     @Override
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 进入选择城市区域的界面
          */
-        mChooseAero.setOnClickListener(new View.OnClickListener() {
+        mChooseArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Choose Aero", Toast.LENGTH_SHORT).show();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         //以下三个view是AppBar中的控件
         mNaviDrawer = (ImageView) findViewById(R.id.iv_navi_drawer);//AppBar中的抽屉键
-        mChooseAero = (LinearLayout) findViewById(R.id.ll_choose_area);//选择城市区域的控件
+        mChooseArea = (LinearLayout) findViewById(R.id.ll_choose_area);//选择城市区域的控件
         mCityName = (TextView) findViewById(R.id.tv_city_name);//区域名字
 
 
