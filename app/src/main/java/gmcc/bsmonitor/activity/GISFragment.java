@@ -179,7 +179,7 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         MapStatusUpdate lev = MapStatusUpdateFactory.zoomTo(7);
         mBaiduMap.animateMapStatus(lev);
 
-//        drawTestDataOnMap(mBaiduMap);
+        drawTestDataOnMap(mBaiduMap);
         setUpMapListener(mBaiduMap);
 
     }
