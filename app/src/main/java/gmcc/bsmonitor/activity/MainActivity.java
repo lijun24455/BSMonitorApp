@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gmcc.bsmonitor.R;
+import gmcc.bsmonitor.TestData;
 import gmcc.bsmonitor.customviews.AreaPickerDialogUtil;
+import gmcc.bsmonitor.model.BaseStation;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mChooseArea;
     private TextView mCityName;
 
+    private TestData mTestDate;
+    private ArrayList<String> mAlarmList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +61,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-
         initListenner();
-
         setupViewPager();
+//        prepareTestDate();
 
+    }
+
+    private void prepareTestDate() {
+        mTestDate = new TestData();
+
+        mAlarmList = new ArrayList<String>();
+        mAlarmList.add("-863931008");
+        mAlarmList.add("-1911315071");
+        mAlarmList.add("476442012");
+
+        mTestDate.registerObserver(mGISFragment);
+        mTestDate.registerObserver(mListFragment);
+
+//        mTestDate.setWarning(mAlarmList.get(2), TestData.STATION_STATE_POWEROFF);
+        mTestDate.notifyObservers();
+
+        for (int i = 0; i < mAlarmList.size(); i++){
+            mTestDate.setWarning(mAlarmList.get(i), TestData.STATION_STATE_POWEROFF);
+        }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    for (int i = 0; i < mAlarmList.size(); i++){
+//                        Thread.sleep(3 * 1000);
+//                        mTestDate.setWarning(mAlarmList.get(i), TestData.STATION_STATE_POWEROFF);
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).run();
     }
 
     /**
@@ -148,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateAreaTitle(String cityStr, String districtStr){
         this.mCityName.setText(cityStr + districtStr);
+        mGISFragment.reFocus(cityStr, districtStr);
     }
-
 
     private void initView() {
 
@@ -176,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
         setUpdateTimesEnable(mSwitch.isChecked());
     }
-
 
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -213,5 +248,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 }

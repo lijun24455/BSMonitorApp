@@ -4,34 +4,38 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapPoi;
-import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import gmcc.bsmonitor.Observer;
 import gmcc.bsmonitor.R;
 import gmcc.bsmonitor.TestData;
+import gmcc.bsmonitor.model.BaseStation;
 
 
 /**
@@ -42,7 +46,7 @@ import gmcc.bsmonitor.TestData;
  * Use the {@link GISFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GISFragment extends Fragment implements View.OnClickListener{
+public class GISFragment extends Fragment implements View.OnClickListener, Observer{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,8 +75,10 @@ public class GISFragment extends Fragment implements View.OnClickListener{
     private BaiduMap mBaiduMap;
 
     private OnFragmentInteractionListener mListener;
+    private OnGetGeoCoderResultListener getGeoCoderResultListener;
 
     private HashMap<Double,Marker> map = new HashMap<Double,Marker>();
+
 
     /**
      * Use this factory method to create a new instance of
@@ -98,6 +104,7 @@ public class GISFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("Fragment", "-------->onCreate()");
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -105,11 +112,36 @@ public class GISFragment extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        getGeoCoderResultListener = new OnGetGeoCoderResultListener() {
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+
+                    return;
+                }
+                //获取地理编码结果
+                LatLng newLat = result.getLocation();
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newLat, 13);
+                mBaiduMap.animateMapStatus(u);
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有找到检索结果
+                }
+                //获取反向地理编码结果
+            }
+        };
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("Fragment", "-------->onCreateView()");
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_gis, container,false);
 
@@ -135,6 +167,8 @@ public class GISFragment extends Fragment implements View.OnClickListener{
     }
 
     private void setUpMap() {
+        Log.i("Fragment", "-------->setUpMap()");
+
 
         mBaiduMap = mapView.getMap();
 
@@ -145,15 +179,15 @@ public class GISFragment extends Fragment implements View.OnClickListener{
         MapStatusUpdate lev = MapStatusUpdateFactory.zoomTo(7);
         mBaiduMap.animateMapStatus(lev);
 
-        drawTestDataOnMap(mBaiduMap);
+//        drawTestDataOnMap(mBaiduMap);
         setUpMapListener(mBaiduMap);
 
     }
 
     private void setUpMapListener(BaiduMap mBaiduMap) {
-        mBaiduMap.setOnMapClickListener (new BaiduMap.OnMapClickListener() {
+        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
 
-            public void onMapClick(LatLng point){
+            public void onMapClick(LatLng point) {
                 Log.i("TEST1", "button2");
             }
 
@@ -170,7 +204,7 @@ public class GISFragment extends Fragment implements View.OnClickListener{
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
 
             @Override
-            public boolean onMarkerClick(Marker  marker) {
+            public boolean onMarkerClick(Marker marker) {
                 // TODO Auto-generated method stub
                 Log.i("TEST1", "button");
                 System.out.println(marker.getExtraInfo());
@@ -182,48 +216,45 @@ public class GISFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-    private void initListener(BaiduMap mBaiduMap) {
-
-    }
 
     private void drawTestDataOnMap(BaiduMap mBaiduMap) {
         int i;
         //载入marker并给HashMap赋值
         for(i =0;i<6;i++){
-            LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+            LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
             OverlayOptions Latoption_1_i = new MarkerOptions()
                     .position(Latpoint_i)
                     .icon(mMarkerNormal);
 
             Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
-            String ID =String.valueOf(TestData.pointlat[i][0]);
+            String ID =String.valueOf(TestData.pointLat[i][0]);
             //        String marker =String.valueOf(mMarker_1_i);
             mMarker_1_i.setTitle(ID);
-            map.put(TestData.pointlat[i][0],mMarker_1_i);
+            map.put(TestData.pointLat[i][0],mMarker_1_i);
         }
 
         for(i=0;i<6;i++){
 
-            if(TestData.pointlat[i][3]==2){
-                Marker marker=map.get(TestData.pointlat[i][0]);
-                LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+            if(TestData.pointLat[i][3]==2){
+                Marker marker=map.get(TestData.pointLat[i][0]);
+                LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                 marker.remove();
                 OverlayOptions Latoption_2_i = new MarkerOptions()
                         .position(Latpoint_i)
                         .icon(mMarkerServiceOut);
                 Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
-                map.put(TestData.pointlat[i][0],mMarker_2_i);
+                map.put(TestData.pointLat[i][0],mMarker_2_i);
 
             }
-            else if(TestData.pointlat[i][3]==3){
-                Marker marker=map.get(TestData.pointlat[i][0]);
-                LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+            else if(TestData.pointLat[i][3]==3){
+                Marker marker=map.get(TestData.pointLat[i][0]);
+                LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                 marker.remove();
                 OverlayOptions Latoption_3_i = new MarkerOptions()
                         .position(Latpoint_i)
                         .icon(mMarkerPowerOff);
                 Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
-                map.put(TestData.pointlat[i][0],mMarker_3_i);
+                map.put(TestData.pointLat[i][0],mMarker_3_i);
 
             }
         }
@@ -279,40 +310,40 @@ public class GISFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.ll_gis_overall:
                 for(int i =0;i<6;i++){
-                    LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                     OverlayOptions Latoption_1_i = new MarkerOptions()
                             .position(Latpoint_i)
                             .icon(mMarkerNormal);
 
                     Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
-                    String ID =String.valueOf(TestData.pointlat[i][0]);
+                    String ID =String.valueOf(TestData.pointLat[i][0]);
 //                    String marker =String.valueOf(mMarker_1_i);
                     mMarker_1_i.setTitle(ID);
-                    map.put(TestData.pointlat[i][0],mMarker_1_i);
+                    map.put(TestData.pointLat[i][0],mMarker_1_i);
                 }
 
                 for(int i=0;i<6;i++){
 
-                    if(TestData.pointlat[i][3]==2){
-                        Marker marker=map.get(TestData.pointlat[i][0]);
-                        LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    if(TestData.pointLat[i][3]==2){
+                        Marker marker=map.get(TestData.pointLat[i][0]);
+                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                         marker.remove();
                         OverlayOptions Latoption_2_i = new MarkerOptions()
                                 .position(Latpoint_i)
                                 .icon(mMarkerServiceOut);
                         Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
-                        map.put(TestData.pointlat[i][0],mMarker_2_i);
+                        map.put(TestData.pointLat[i][0],mMarker_2_i);
 
                     }
-                    else if(TestData.pointlat[i][3]==3){
-                        Marker marker=map.get(TestData.pointlat[i][0]);
-                        LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    else if(TestData.pointLat[i][3]==3){
+                        Marker marker=map.get(TestData.pointLat[i][0]);
+                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                         marker.remove();
                         OverlayOptions Latoption_3_i = new MarkerOptions()
                                 .position(Latpoint_i)
                                 .icon(mMarkerPowerOff);
                         Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
-                        map.put(TestData.pointlat[i][0],mMarker_3_i);
+                        map.put(TestData.pointLat[i][0],mMarker_3_i);
 
                     }
                 }
@@ -321,13 +352,13 @@ public class GISFragment extends Fragment implements View.OnClickListener{
             case R.id.ll_gis_normal:
                 mBaiduMap.clear();
                 for(int i =0;i<6;i++){
-                    if(TestData.pointlat[i][3]==1){
-                        LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    if(TestData.pointLat[i][3]==1){
+                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                         OverlayOptions Latoption_1_i = new MarkerOptions()
                                 .position(Latpoint_i)
                                 .icon(mMarkerNormal);
                         Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
-                        String ID =String.valueOf(TestData.pointlat[i][0]);
+                        String ID =String.valueOf(TestData.pointLat[i][0]);
                         mMarker_1_i.setTitle(ID);
                     }
                 }
@@ -335,13 +366,13 @@ public class GISFragment extends Fragment implements View.OnClickListener{
             case R.id.ll_gis_service_out:
                 mBaiduMap.clear();
                 for(int i =0;i<6;i++){
-                    if(TestData.pointlat[i][3]==2){
-                        LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    if(TestData.pointLat[i][3]==2){
+                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                         OverlayOptions Latoption_2_i = new MarkerOptions()
                                 .position(Latpoint_i)
                                 .icon(mMarkerServiceOut);
                         Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
-                        String ID =String.valueOf(TestData.pointlat[i][0]);
+                        String ID =String.valueOf(TestData.pointLat[i][0]);
                         mMarker_2_i.setTitle(ID);
                     }
                 }
@@ -349,13 +380,13 @@ public class GISFragment extends Fragment implements View.OnClickListener{
             case R.id.ll_gis_power_off:
                 mBaiduMap.clear();
                 for(int i =0;i<6;i++){
-                    if(TestData.pointlat[i][3]==3){
-                        LatLng Latpoint_i = new LatLng(TestData.pointlat[i][1], TestData.pointlat[i][2]);
+                    if(TestData.pointLat[i][3]==3){
+                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
                         OverlayOptions Latoption_3_i = new MarkerOptions()
                                 .position(Latpoint_i)
                                 .icon(mMarkerPowerOff);
                         Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
-                        String ID =String.valueOf(TestData.pointlat[i][0]);
+                        String ID =String.valueOf(TestData.pointLat[i][0]);
                         mMarker_3_i.setTitle(ID);
                     }
                 }
@@ -366,7 +397,60 @@ public class GISFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    public void reFocus(String cityStr, String addressStr){
 
+        GeoCoder mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(getGeoCoderResultListener);
+        mSearch.geocode(new GeoCodeOption()
+                .city(cityStr)
+                .address(addressStr));
+
+    }
+
+    @Override
+    public void update(ArrayList<BaseStation> mBaseStationList) {
+
+
+    }
+
+
+    @Override
+    public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
+
+        ArrayList<BaseStation> currentStationList = mBaseStationList;
+        BaseStation tmp = null;
+        BitmapDescriptor icon = null;
+        if (currentStationList == null){
+            return;
+        }
+        OverlayOptions option = null;
+        LatLng point = null;
+        for(int i = 0; i<currentStationList.size(); i++){
+            tmp = currentStationList.get(i);
+            Log.i("Map", "tmp:-------->"+tmp.toString());
+            point = new LatLng(tmp.getmLongitude(), tmp.getmLatitude());
+
+            switch (tmp.getmState()){
+                case TestData.STATION_STATE_NORMAL:
+                    icon = mMarkerNormal;
+                    break;
+                case TestData.STATION_STATE_SERVICE_OUT:
+                    icon = mMarkerServiceOut;
+                    break;
+                case TestData.STATION_STATE_POWEROFF:
+                    icon = mMarkerPowerOff;
+                    break;
+                default:
+                    break;
+            }
+            Log.i("Map", "icon == null?"+(icon==null));
+            option = new MarkerOptions()
+                    .position(point)
+                    .icon(icon);
+//            mBaiduMap.addOverlay(option);
+        }
+
+    }
 
     /**
      * This interface must be implemented by activities that contain this

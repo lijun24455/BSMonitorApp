@@ -1,7 +1,6 @@
 package gmcc.bsmonitor.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import gmcc.bsmonitor.Observer;
 import gmcc.bsmonitor.R;
+import gmcc.bsmonitor.model.BaseStation;
 
 
 /**
@@ -22,7 +25,7 @@ import gmcc.bsmonitor.R;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment implements View.OnClickListener{
+public class ListFragment extends Fragment implements View.OnClickListener, Observer{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -141,6 +144,16 @@ public class ListFragment extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
+
+    }
+
+    @Override
+    public void update(ArrayList<BaseStation> mBaseStationList) {
+
+    }
+
+    @Override
+    public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
 
     }
 
