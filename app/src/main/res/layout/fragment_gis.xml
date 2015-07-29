@@ -22,6 +22,7 @@
         android:orientation="horizontal"
         >
         <LinearLayout
+            android:id="@+id/ll_gis_overall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -49,6 +50,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_gis_normal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -76,6 +78,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_gis_service_out"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -91,7 +94,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"/>
             <TextView
-                android:id="@+id/tv_float_out_of_service"
+                android:id="@+id/tv_float_service_out"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -103,6 +106,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_gis_power_off"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -118,7 +122,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"/>
             <TextView
-                android:id="@+id/tv_float_electric"
+                android:id="@+id/tv_float_power_off"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
