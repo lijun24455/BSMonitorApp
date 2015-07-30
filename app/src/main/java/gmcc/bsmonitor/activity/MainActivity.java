@@ -95,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
         mAlarmList.add("-157504865");
 
         int r = (int)(0+Math.random()*(5-0+1));
+        int s = (int)(1+Math.random()*(3-1+1));
         Log.e("RandomNum","random num is-------->"+r);
-        mTestDate.setWarning(mAlarmList.get(r), TestData.STATION_STATE_POWEROFF);
+        mTestDate.setWarning(mAlarmList.get(r), s);
 
     }
 
