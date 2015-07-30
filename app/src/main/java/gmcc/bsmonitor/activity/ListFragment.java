@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import gmcc.bsmonitor.Observer;
 import gmcc.bsmonitor.R;
+import gmcc.bsmonitor.TestData;
 import gmcc.bsmonitor.model.BaseStation;
 
 
@@ -48,6 +49,8 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
     private TextView mTvPowerOffNum;
 
     private OnFragmentInteractionListener mListener;
+    //------测试数据
+    private ArrayList<BaseStation> currentStationList;
 
     /**
      * Use this factory method to create a new instance of
@@ -150,6 +153,33 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
     @Override
     public void update(ArrayList<BaseStation> mBaseStationList) {
 
+        currentStationList = mBaseStationList;
+        BaseStation tmp;
+        int mOverallNum = currentStationList.size();
+        int mNormalNum = 0;
+        int mServiceOutNum = 0;
+        int mPowerOffNum = 0;
+
+        for(int i = 0; i<currentStationList.size(); i++){
+            tmp = currentStationList.get(i);
+            switch (tmp.getmState()){
+                case TestData.STATION_STATE_NORMAL:
+                    mNormalNum+=1;
+                    break;
+                case TestData.STATION_STATE_SERVICE_OUT:
+                    mServiceOutNum+=1;
+                    break;
+                case TestData.STATION_STATE_POWEROFF:
+                    mPowerOffNum+=1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        mTvOverallNum.setText(mOverallNum+"");
+        mTvNormalNum.setText(mNormalNum+"");
+        mTvServiceOutNum.setText(mServiceOutNum+"");
+        mTvPowerOffNum.setText(mPowerOffNum+"");
     }
 
     @Override

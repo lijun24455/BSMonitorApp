@@ -79,6 +79,9 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
 
     private HashMap<Double,Marker> map = new HashMap<Double,Marker>();
 
+//----------测试用数据
+    private ArrayList<BaseStation> currentStationList = null;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -169,7 +172,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
     private void setUpMap() {
         Log.i("Fragment", "-------->setUpMap()");
 
-
         mBaiduMap = mapView.getMap();
 
         LatLng point = new LatLng(23.147267, 113.312213);//广州市
@@ -179,7 +181,7 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         MapStatusUpdate lev = MapStatusUpdateFactory.zoomTo(7);
         mBaiduMap.animateMapStatus(lev);
 
-        drawTestDataOnMap(mBaiduMap);
+//        drawTestDataOnMap(mBaiduMap);
         setUpMapListener(mBaiduMap);
 
     }
@@ -410,14 +412,43 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
     @Override
     public void update(ArrayList<BaseStation> mBaseStationList) {
 
+        currentStationList = mBaseStationList;
+        BaseStation tmp;
+        int mOverallNum = currentStationList.size();
+        int mNormalNum = 0;
+        int mServiceOutNum = 0;
+        int mPowerOffNum = 0;
+
+        for(int i = 0; i<currentStationList.size(); i++){
+            tmp = currentStationList.get(i);
+            switch (tmp.getmState()){
+                case TestData.STATION_STATE_NORMAL:
+                    mNormalNum+=1;
+                    break;
+                case TestData.STATION_STATE_SERVICE_OUT:
+                    mServiceOutNum+=1;
+                    break;
+                case TestData.STATION_STATE_POWEROFF:
+                    mPowerOffNum+=1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        mTvOverall.setText(mOverallNum+"");
+        mTvNormal.setText(mNormalNum+"");
+        mTvServiceOut.setText(mServiceOutNum+"");
+        mTvPowerOff.setText(mPowerOffNum+"");
 
     }
 
 
     @Override
-    public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
+    synchronized public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
 
-        ArrayList<BaseStation> currentStationList = mBaseStationList;
+        mBaiduMap.clear();
+        Log.e("Marker Update", "update Map$$$$$$$$$$$$$");
+        currentStationList = mBaseStationList;
         BaseStation tmp = null;
         BitmapDescriptor icon = null;
         if (currentStationList == null){
@@ -427,7 +458,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         LatLng point = null;
         for(int i = 0; i<currentStationList.size(); i++){
             tmp = currentStationList.get(i);
-            Log.i("Map", "tmp:-------->"+tmp.toString());
             point = new LatLng(tmp.getmLongitude(), tmp.getmLatitude());
 
             switch (tmp.getmState()){
@@ -441,13 +471,14 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
                     icon = mMarkerPowerOff;
                     break;
                 default:
+                    icon = mMarkerNormal;
                     break;
             }
-            Log.i("Map", "icon == null?"+(icon==null));
             option = new MarkerOptions()
                     .position(point)
                     .icon(icon);
-//            mBaiduMap.addOverlay(option);
+            Log.i("Marker", "**************marker!");
+            mBaiduMap.addOverlay(option);
         }
 
     }

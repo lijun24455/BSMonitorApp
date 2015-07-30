@@ -30,18 +30,21 @@ public class TestData implements Subject{
             {700858277,3}
     };
 
+    public ArrayList<BaseStation> getmBaseStationList() {
+        return mBaseStationList;
+    }
+
+    public void setmBaseStationList(ArrayList<BaseStation> mBaseStationList) {
+        this.mBaseStationList = mBaseStationList;
+        notifyObservers();
+    }
+
     private ArrayList<BaseStation> mBaseStationList;
     private ArrayList observers;
 
     public TestData(){
         observers = new ArrayList();
         mBaseStationList = new ArrayList<BaseStation>();
-        mBaseStationList.add(new BaseStation(-863931008+"", 25.203121, 113.196419, 1));
-        mBaseStationList.add(new BaseStation(-1911315071+"", 23.27916, 116.74168, 1));
-        mBaseStationList.add(new BaseStation(-157504865+"", 23.95222092, 116.58280182, 1));
-        mBaseStationList.add(new BaseStation(476442012+"", 24.8607878, 113.4332875, 1));
-        mBaseStationList.add(new BaseStation(700858277+"", 22.958901, 116.05301, 1));
-        mBaseStationList.add(new BaseStation(-1168781389+"", 23.24641, 115.43156, 1));
     }
 
     @Override
@@ -74,11 +77,14 @@ public class TestData implements Subject{
                 index = i;
                 mBaseStationList.get(index).setmState(state);
                 warningChanged();
+                return;
             }
         }
     }
 
-    private void warningChanged() {
+
+
+    synchronized private void warningChanged() {
         notifyObservers();
     }
 }

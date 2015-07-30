@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import com.baidu.mapapi.SDKInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import gmcc.bsmonitor.R;
 import gmcc.bsmonitor.TestData;
@@ -52,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView mCityName;
 
     private TestData mTestDate;
+    private ArrayList<BaseStation> mBaseStationInfo;
     private ArrayList<String> mAlarmList;
+
+    private Button mBtnTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,41 +68,39 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initListenner();
         setupViewPager();
-//        prepareTestDate();
 
     }
 
     private void prepareTestDate() {
         mTestDate = new TestData();
-
-        mAlarmList = new ArrayList<String>();
-        mAlarmList.add("-863931008");
-        mAlarmList.add("-1911315071");
-        mAlarmList.add("476442012");
+        mAlarmList = new ArrayList<>();
 
         mTestDate.registerObserver(mGISFragment);
         mTestDate.registerObserver(mListFragment);
 
-//        mTestDate.setWarning(mAlarmList.get(2), TestData.STATION_STATE_POWEROFF);
-        mTestDate.notifyObservers();
+        mBaseStationInfo = new ArrayList<>();
+        mBaseStationInfo.add(new BaseStation(-863931008+"", 25.203121, 113.196419, 1));
+        mBaseStationInfo.add(new BaseStation(-1911315071+"", 23.27916, 116.74168, 1));
+        mBaseStationInfo.add(new BaseStation(-157504865+"", 23.95222092, 116.58280182, 1));
+        mBaseStationInfo.add(new BaseStation(476442012 + "", 24.8607878, 113.4332875, 1));
+        mBaseStationInfo.add(new BaseStation(700858277+"", 22.958901, 116.05301, 1));
+        mBaseStationInfo.add(new BaseStation(-1168781389 + "", 23.24641, 115.43156, 1));
+        mTestDate.setmBaseStationList(mBaseStationInfo);
 
-        for (int i = 0; i < mAlarmList.size(); i++){
-            mTestDate.setWarning(mAlarmList.get(i), TestData.STATION_STATE_POWEROFF);
-        }
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    for (int i = 0; i < mAlarmList.size(); i++){
-//                        Thread.sleep(3 * 1000);
-//                        mTestDate.setWarning(mAlarmList.get(i), TestData.STATION_STATE_POWEROFF);
-//                    }
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).run();
+        mAlarmList.add("-863931008");
+        mAlarmList.add("-1911315071");
+        mAlarmList.add("700858277");
+        mAlarmList.add("476442012");
+        mAlarmList.add("-1168781389");
+        mAlarmList.add("-157504865");
+
+        int r = (int)(0+Math.random()*(5-0+1));
+        Log.e("RandomNum","random num is-------->"+r);
+        mTestDate.setWarning(mAlarmList.get(r), TestData.STATION_STATE_POWEROFF);
+
     }
+
+
 
     /**
      * 各种监听器配置方法
@@ -209,6 +212,16 @@ public class MainActivity extends AppCompatActivity {
         mTextView_UpdateTimes = (TextView) findViewById(R.id.tv_UpdateTimes);
         mTextView_UpdateTimes_label = (TextView) findViewById(R.id.tv_UpdateTimes_label);
         mLayout_SetUpdateTimes = (LinearLayout) findViewById(R.id.ll_set_update_times);
+
+        mBtnTest = (Button) findViewById(R.id.btn_test);
+
+        mBtnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prepareTestDate();
+
+            }
+        });
 
         setUpdateTimesEnable(mSwitch.isChecked());
     }
