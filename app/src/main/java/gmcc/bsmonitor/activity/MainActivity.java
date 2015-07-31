@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /**
-         * 进入选择城市区域的界面
+         * 弹出选择城市地区的弹出窗口
          */
         mChooseArea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,13 +214,13 @@ public class MainActivity extends AppCompatActivity {
         mTextView_UpdateTimes_label = (TextView) findViewById(R.id.tv_UpdateTimes_label);
         mLayout_SetUpdateTimes = (LinearLayout) findViewById(R.id.ll_set_update_times);
 
+        //----------------------测试用-----------------------
         mBtnTest = (Button) findViewById(R.id.btn_test);
 
         mBtnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareTestDate();
-
             }
         });
 

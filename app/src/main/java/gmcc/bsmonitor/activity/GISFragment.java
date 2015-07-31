@@ -119,12 +119,19 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
             public void onGetGeoCodeResult(GeoCodeResult result) {
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     //没有检索到结果
-
                     return;
                 }
                 //获取地理编码结果
+                int level = 13;
+                if (result.getAddress().equals("广东省")){
+                    level = 8;
+                }
+                if (result.getAddress().equals("其他")){
+                    level = 11;
+                }
+                Log.e("AREA","result.address is ###########>>>>>"+result.getAddress());
                 LatLng newLat = result.getLocation();
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newLat, 13);
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(newLat, level);
                 mBaiduMap.animateMapStatus(u);
 
             }
@@ -403,9 +410,17 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
 
         GeoCoder mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(getGeoCoderResultListener);
-        mSearch.geocode(new GeoCodeOption()
-                .city(cityStr)
-                .address(addressStr));
+        if (!addressStr.equals("全省") && !addressStr.equals("其他")){
+            mSearch.geocode(new GeoCodeOption()
+                    .city(cityStr)
+                    .address(addressStr));
+        }else {
+            Log.e("AREA","your choice is----->"+cityStr+addressStr);
+            mSearch.geocode(new GeoCodeOption()
+            .city(cityStr)
+            .address(cityStr));
+        }
+
 
     }
 
@@ -435,11 +450,11 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
                     break;
             }
         }
+
         mTvOverall.setText(mOverallNum+"");
         mTvNormal.setText(mNormalNum+"");
         mTvServiceOut.setText(mServiceOutNum+"");
         mTvPowerOff.setText(mPowerOffNum+"");
-
     }
 
 
@@ -447,7 +462,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
     synchronized public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
 
         mBaiduMap.clear();
-        Log.e("Marker Update", "update Map$$$$$$$$$$$$$");
         currentStationList = mBaseStationList;
         BaseStation tmp = null;
         BitmapDescriptor icon = null;
@@ -477,7 +491,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
             option = new MarkerOptions()
                     .position(point)
                     .icon(icon);
-            Log.i("Marker", "**************marker!");
             mBaiduMap.addOverlay(option);
         }
 
