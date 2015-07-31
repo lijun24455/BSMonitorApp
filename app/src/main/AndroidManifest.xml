@@ -43,6 +43,10 @@
             android:name=".activity.ScreenActivity"
             android:label="@string/title_activity_screen" >
         </activity>
+        <activity
+            android:name=".activity.tmpActivity"
+            android:label="@string/title_activity_tmp" >
+        </activity>
     </application>
 
 </manifest>
