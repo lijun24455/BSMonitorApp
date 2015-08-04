@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import gmcc.bsmonitor.Observer;
+import gmcc.bsmonitor.model.BaseStationInfo;
+import gmcc.bsmonitor.utils.Observer;
 import gmcc.bsmonitor.R;
 import gmcc.bsmonitor.TestData;
 import gmcc.bsmonitor.model.BaseStation;
@@ -50,7 +51,7 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
 
     private OnFragmentInteractionListener mListener;
     //------测试数据
-    private ArrayList<BaseStation> currentStationList;
+    private ArrayList<BaseStationInfo> currentStationList;
 
     /**
      * Use this factory method to create a new instance of
@@ -151,10 +152,10 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
     }
 
     @Override
-    public void update(ArrayList<BaseStation> mBaseStationList) {
+    public void update(ArrayList<BaseStationInfo> mBaseStationList) {
 
         currentStationList = mBaseStationList;
-        BaseStation tmp;
+        BaseStationInfo tmp;
         int mOverallNum = currentStationList.size();
         int mNormalNum = 0;
         int mServiceOutNum = 0;
@@ -162,14 +163,14 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
 
         for(int i = 0; i<currentStationList.size(); i++){
             tmp = currentStationList.get(i);
-            switch (tmp.getmState()){
-                case TestData.STATION_STATE_NORMAL:
+            switch (tmp.getWarningTitle()){
+                case TestData.STATION_STATE_NORMAL_STRING:
                     mNormalNum+=1;
                     break;
-                case TestData.STATION_STATE_SERVICE_OUT:
+                case TestData.STATION_STATE_SERVICE_OUT_STRING:
                     mServiceOutNum+=1;
                     break;
-                case TestData.STATION_STATE_POWEROFF:
+                case TestData.STATION_STATE_POWER_OFF_STRING:
                     mPowerOffNum+=1;
                     break;
                 default:
@@ -183,7 +184,7 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
     }
 
     @Override
-    public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
+    public void updateMarkers(ArrayList<BaseStationInfo> mBaseStationList) {
 
     }
 

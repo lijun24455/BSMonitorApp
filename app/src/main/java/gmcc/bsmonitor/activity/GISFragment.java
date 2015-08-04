@@ -32,7 +32,8 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import gmcc.bsmonitor.Observer;
+import gmcc.bsmonitor.model.BaseStationInfo;
+import gmcc.bsmonitor.utils.Observer;
 import gmcc.bsmonitor.R;
 import gmcc.bsmonitor.TestData;
 import gmcc.bsmonitor.model.BaseStation;
@@ -80,7 +81,7 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
     private HashMap<Double,Marker> map = new HashMap<Double,Marker>();
 
 //----------测试用数据
-    private ArrayList<BaseStation> currentStationList = null;
+    private ArrayList<BaseStationInfo> currentStationList = null;
 
 
     /**
@@ -188,7 +189,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         MapStatusUpdate lev = MapStatusUpdateFactory.zoomTo(7);
         mBaiduMap.animateMapStatus(lev);
 
-//        drawTestDataOnMap(mBaiduMap);
         setUpMapListener(mBaiduMap);
 
     }
@@ -216,9 +216,6 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
             public boolean onMarkerClick(Marker marker) {
                 // TODO Auto-generated method stub
                 Log.i("TEST1", "button");
-                System.out.println(marker.getExtraInfo());
-                System.out.println(marker.getPosition());
-                System.out.println(marker.getTitle());
 
                 return false;
             }
@@ -311,6 +308,104 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         mapView.onDestroy();
     }
 
+//    @Override
+//    public void onClick(View v) {
+//        if (mBaiduMap == null){
+//            return;
+//        }
+//        switch (v.getId()){
+//            case R.id.ll_gis_overall:
+//                mBaiduMap.clear();
+//                for(int i =0;i<6;i++){
+//                    LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                    OverlayOptions Latoption_1_i = new MarkerOptions()
+//                            .position(Latpoint_i)
+//                            .icon(mMarkerNormal);
+//
+//                    Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
+//                    String ID =String.valueOf(TestData.pointLat[i][0]);
+//                    mMarker_1_i.setTitle(ID);
+//                    map.put(TestData.pointLat[i][0],mMarker_1_i);
+//                }
+//
+//                for(int i=0;i<6;i++){
+//
+//                    if(TestData.pointLat[i][3]==2){
+//                        Marker marker=map.get(TestData.pointLat[i][0]);
+//                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                        marker.remove();
+//                        OverlayOptions Latoption_2_i = new MarkerOptions()
+//                                .position(Latpoint_i)
+//                                .icon(mMarkerServiceOut);
+//                        Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
+//                        map.put(TestData.pointLat[i][0],mMarker_2_i);
+//
+//                    }
+//                    else if(TestData.pointLat[i][3]==3){
+//                        Marker marker=map.get(TestData.pointLat[i][0]);
+//                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                        marker.remove();
+//                        OverlayOptions Latoption_3_i = new MarkerOptions()
+//                                .position(Latpoint_i)
+//                                .icon(mMarkerPowerOff);
+//                        Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
+//                        map.put(TestData.pointLat[i][0],mMarker_3_i);
+//
+//                    }
+//                }
+//                Log.i("TEST1", "button onClick");
+//
+//
+//                break;
+//            case R.id.ll_gis_normal:
+//                mBaiduMap.clear();
+//                for(int i =0;i<6;i++){
+//                    if(TestData.pointLat[i][3]==1){
+//                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                        OverlayOptions Latoption_1_i = new MarkerOptions()
+//                                .position(Latpoint_i)
+//                                .icon(mMarkerNormal);
+//                        Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
+//                        String ID =String.valueOf(TestData.pointLat[i][0]);
+//                        mMarker_1_i.setTitle(ID);
+//                    }
+//                }
+//                break;
+//            case R.id.ll_gis_service_out:
+//                mBaiduMap.clear();
+//                for(int i =0;i<6;i++){
+//                    if(TestData.pointLat[i][3]==2){
+//                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                        OverlayOptions Latoption_2_i = new MarkerOptions()
+//                                .position(Latpoint_i)
+//                                .icon(mMarkerServiceOut);
+//                        Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
+//                        String ID =String.valueOf(TestData.pointLat[i][0]);
+//                        mMarker_2_i.setTitle(ID);
+//                    }
+//                }
+//                break;
+//            case R.id.ll_gis_power_off:
+//                mBaiduMap.clear();
+//                for(int i =0;i<6;i++){
+//                    if(TestData.pointLat[i][3]==3){
+//                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
+//                        OverlayOptions Latoption_3_i = new MarkerOptions()
+//                                .position(Latpoint_i)
+//                                .icon(mMarkerPowerOff);
+//                        Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
+//                        String ID =String.valueOf(TestData.pointLat[i][0]);
+//                        mMarker_3_i.setTitle(ID);
+//                    }
+//                }
+//                break;
+//            default:
+//                break;
+//
+//        }
+//    }
+
+
     @Override
     public void onClick(View v) {
         if (mBaiduMap == null){
@@ -318,94 +413,104 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         }
         switch (v.getId()){
             case R.id.ll_gis_overall:
-                for(int i =0;i<6;i++){
-                    LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                    OverlayOptions Latoption_1_i = new MarkerOptions()
-                            .position(Latpoint_i)
-                            .icon(mMarkerNormal);
+//                drawMarkers(mBaiduMap, currentStationList, TestData.STATION_STATE_OVERALL);
+                updateMarkers(currentStationList);
 
-                    Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
-                    String ID =String.valueOf(TestData.pointLat[i][0]);
-//                    String marker =String.valueOf(mMarker_1_i);
-                    mMarker_1_i.setTitle(ID);
-                    map.put(TestData.pointLat[i][0],mMarker_1_i);
-                }
-
-                for(int i=0;i<6;i++){
-
-                    if(TestData.pointLat[i][3]==2){
-                        Marker marker=map.get(TestData.pointLat[i][0]);
-                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                        marker.remove();
-                        OverlayOptions Latoption_2_i = new MarkerOptions()
-                                .position(Latpoint_i)
-                                .icon(mMarkerServiceOut);
-                        Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
-                        map.put(TestData.pointLat[i][0],mMarker_2_i);
-
-                    }
-                    else if(TestData.pointLat[i][3]==3){
-                        Marker marker=map.get(TestData.pointLat[i][0]);
-                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                        marker.remove();
-                        OverlayOptions Latoption_3_i = new MarkerOptions()
-                                .position(Latpoint_i)
-                                .icon(mMarkerPowerOff);
-                        Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
-                        map.put(TestData.pointLat[i][0],mMarker_3_i);
-
-                    }
-                }
-                Log.i("TEST1", "button onClick");
                 break;
             case R.id.ll_gis_normal:
-                mBaiduMap.clear();
-                for(int i =0;i<6;i++){
-                    if(TestData.pointLat[i][3]==1){
-                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                        OverlayOptions Latoption_1_i = new MarkerOptions()
-                                .position(Latpoint_i)
-                                .icon(mMarkerNormal);
-                        Marker mMarker_1_i = (Marker)mBaiduMap.addOverlay(Latoption_1_i);
-                        String ID =String.valueOf(TestData.pointLat[i][0]);
-                        mMarker_1_i.setTitle(ID);
-                    }
-                }
+                drawMarkers(mBaiduMap, currentStationList, TestData.STATION_STATE_NORMAL_STRING);
                 break;
             case R.id.ll_gis_service_out:
-                mBaiduMap.clear();
-                for(int i =0;i<6;i++){
-                    if(TestData.pointLat[i][3]==2){
-                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                        OverlayOptions Latoption_2_i = new MarkerOptions()
-                                .position(Latpoint_i)
-                                .icon(mMarkerServiceOut);
-                        Marker mMarker_2_i = (Marker)mBaiduMap.addOverlay(Latoption_2_i);
-                        String ID =String.valueOf(TestData.pointLat[i][0]);
-                        mMarker_2_i.setTitle(ID);
-                    }
-                }
+                drawMarkers(mBaiduMap, currentStationList, TestData.STATION_STATE_SERVICE_OUT_STRING);
                 break;
             case R.id.ll_gis_power_off:
-                mBaiduMap.clear();
-                for(int i =0;i<6;i++){
-                    if(TestData.pointLat[i][3]==3){
-                        LatLng Latpoint_i = new LatLng(TestData.pointLat[i][1], TestData.pointLat[i][2]);
-                        OverlayOptions Latoption_3_i = new MarkerOptions()
-                                .position(Latpoint_i)
-                                .icon(mMarkerPowerOff);
-                        Marker mMarker_3_i = (Marker)mBaiduMap.addOverlay(Latoption_3_i);
-                        String ID =String.valueOf(TestData.pointLat[i][0]);
-                        mMarker_3_i.setTitle(ID);
-                    }
-                }
+                drawMarkers(mBaiduMap, currentStationList, TestData.STATION_STATE_POWER_OFF_STRING);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void drawMarkers(BaiduMap mBaiduMap, ArrayList<BaseStationInfo> mBaseStationList, String mType){
+        switch (mType){
+            case TestData.STATION_STATE_NORMAL_STRING:
+                mBaiduMap.clear();
+                for(int i = 0; i<mBaseStationList.size(); i++){
+                    BaseStationInfo tmp = mBaseStationList.get(i);
+                    if (tmp.getWarningTitle().contentEquals(TestData.STATION_STATE_NORMAL_STRING)){
+                        LatLng latLng = new LatLng(Double.valueOf(tmp.getLongitude()), Double.valueOf(tmp.getLatitude()));
+                        OverlayOptions options = new MarkerOptions()
+                                .position(latLng)
+                                .icon(mMarkerNormal);
+                        Marker marker = (Marker) mBaiduMap.addOverlay(options);
+                    }
+                }
+                break;
+            case TestData.STATION_STATE_SERVICE_OUT_STRING:
+                mBaiduMap.clear();
+                for(int i = 0; i<mBaseStationList.size(); i++){
+                    BaseStationInfo tmp = mBaseStationList.get(i);
+                    if (tmp.getWarningTitle().contentEquals(TestData.STATION_STATE_SERVICE_OUT_STRING)){
+                        LatLng latLng = new LatLng(Double.valueOf(tmp.getLongitude()), Double.valueOf(tmp.getLatitude()));
+                        OverlayOptions options = new MarkerOptions()
+                                .position(latLng)
+                                .icon(mMarkerServiceOut);
+                        Marker marker = (Marker) mBaiduMap.addOverlay(options);
+                    }
+                }
+                break;
+            case TestData.STATION_STATE_POWER_OFF_STRING:
+                mBaiduMap.clear();
+                for(int i = 0; i<mBaseStationList.size(); i++){
+                    BaseStationInfo tmp = mBaseStationList.get(i);
+                    if (tmp.getWarningTitle().contentEquals(TestData.STATION_STATE_POWER_OFF_STRING)){
+                        LatLng latLng = new LatLng(Double.valueOf(tmp.getLongitude()), Double.valueOf(tmp.getLatitude()));
+                        OverlayOptions options = new MarkerOptions()
+                                .position(latLng)
+                                .icon(mMarkerPowerOff);
+                        Marker marker = (Marker) mBaiduMap.addOverlay(options);
+                    }
+                }
+                break;
+//            case TestData.STATION_STATE_OVERALL:
+
+//                mBaiduMap.clear();
+//                BaseStationInfo tmp = null;
+//                OverlayOptions options = null;
+//                BitmapDescriptor icon = null;
+//                for(int i = 0; i<mBaseStationList.size(); i++){
+//                    tmp = mBaseStationList.get(i);
+//                    LatLng latLng = new LatLng(Double.valueOf(tmp.getLongitude()), Double.valueOf(tmp.getLatitude()));
+//                    switch (tmp.getmState()){
+//                        case TestData.STATION_STATE_NORMAL:
+//                            icon = mMarkerNormal;
+//                            break;
+//                        case TestData.STATION_STATE_SERVICE_OUT:
+//                            icon = mMarkerServiceOut;
+//                            break;
+//                        case TestData.STATION_STATE_POWEROFF:
+//                            icon = mMarkerPowerOff;
+//                            break;
+//                        default:
+//                            icon = mMarkerNormal;
+//                    }
+//                    options = new MarkerOptions()
+//                            .position(latLng)
+//                            .icon(icon);
+//                    Marker marker = (Marker) mBaiduMap.addOverlay(options);
+//                }
+                default:
+                    break;
 
         }
     }
 
+    /**
+     * 响应Activity里面地区选择后的重定位事件
+     *
+     * @param cityStr       城市
+     * @param addressStr    地区
+     */
     public void reFocus(String cityStr, String addressStr){
 
         GeoCoder mSearch = GeoCoder.newInstance();
@@ -424,11 +529,16 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
 
     }
 
+    /**
+     * 更新告警数量的文字部分
+     *
+     * @param mBaseStationList
+     */
     @Override
-    public void update(ArrayList<BaseStation> mBaseStationList) {
+    public void update(ArrayList<BaseStationInfo> mBaseStationList) {
 
         currentStationList = mBaseStationList;
-        BaseStation tmp;
+        BaseStationInfo tmp;
         int mOverallNum = currentStationList.size();
         int mNormalNum = 0;
         int mServiceOutNum = 0;
@@ -436,34 +546,34 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
 
         for(int i = 0; i<currentStationList.size(); i++){
             tmp = currentStationList.get(i);
-            switch (tmp.getmState()){
-                case TestData.STATION_STATE_NORMAL:
+            switch (tmp.getWarningTitle()){
+                case TestData.STATION_STATE_NORMAL_STRING:
                     mNormalNum+=1;
                     break;
-                case TestData.STATION_STATE_SERVICE_OUT:
+                case TestData.STATION_STATE_SERVICE_OUT_STRING:
                     mServiceOutNum+=1;
                     break;
-                case TestData.STATION_STATE_POWEROFF:
+                case TestData.STATION_STATE_POWER_OFF_STRING:
                     mPowerOffNum+=1;
                     break;
                 default:
                     break;
             }
         }
-
         mTvOverall.setText(mOverallNum+"");
         mTvNormal.setText(mNormalNum+"");
         mTvServiceOut.setText(mServiceOutNum+"");
         mTvPowerOff.setText(mPowerOffNum+"");
+
     }
 
 
     @Override
-    synchronized public void updateMarkers(ArrayList<BaseStation> mBaseStationList) {
+    synchronized public void updateMarkers(ArrayList<BaseStationInfo> mBaseStationList) {
 
         mBaiduMap.clear();
         currentStationList = mBaseStationList;
-        BaseStation tmp = null;
+        BaseStationInfo tmp = null;
         BitmapDescriptor icon = null;
         if (currentStationList == null){
             return;
@@ -472,19 +582,21 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
         LatLng point = null;
         for(int i = 0; i<currentStationList.size(); i++){
             tmp = currentStationList.get(i);
-            point = new LatLng(tmp.getmLongitude(), tmp.getmLatitude());
+            point = new LatLng(Double.valueOf(tmp.getLongitude()), Double.valueOf(tmp.getLatitude()));
 
-            switch (tmp.getmState()){
-                case TestData.STATION_STATE_NORMAL:
+//            Log.i("STATION", tmp.toString());
+            switch (tmp.getWarningTitle()){
+                case TestData.STATION_STATE_NORMAL_STRING:
                     icon = mMarkerNormal;
                     break;
-                case TestData.STATION_STATE_SERVICE_OUT:
+                case TestData.STATION_STATE_SERVICE_OUT_STRING:
                     icon = mMarkerServiceOut;
                     break;
-                case TestData.STATION_STATE_POWEROFF:
+                case TestData.STATION_STATE_POWER_OFF_STRING:
                     icon = mMarkerPowerOff;
                     break;
                 default:
+//                    Log.i("updateMarkers","------handle as---->default::"+tmp.getWarningTitle());
                     icon = mMarkerNormal;
                     break;
             }

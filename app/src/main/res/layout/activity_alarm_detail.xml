@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="24dp">
+            android:paddingTop="16dp">
 
             <!-- 此处 include 详情布局-->
             <include layout="@layout/alarm_detail_layout"/>
@@ -81,7 +81,7 @@
         android:onClick="showMapView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginRight="16dp"
         android:clickable="true"
         android:src="@drawable/ic_location_white_36dp"
         app:layout_anchor="@id/appbar"

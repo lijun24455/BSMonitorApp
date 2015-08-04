@@ -5,10 +5,13 @@ package gmcc.bsmonitor.model;
  * Created by lijun on 15/7/29.
  */
 public class BaseStation {
+
     private String mIntId;
     private double mLongitude;
     private double mLatitude;
     private int mState;
+
+
 
     public BaseStation() {
     }

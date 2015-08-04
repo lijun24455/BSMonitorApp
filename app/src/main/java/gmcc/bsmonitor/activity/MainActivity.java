@@ -1,6 +1,13 @@
 package gmcc.bsmonitor.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,19 +28,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.baidu.mapapi.SDKInitializer;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import gmcc.bsmonitor.R;
 import gmcc.bsmonitor.TestData;
-import gmcc.bsmonitor.customviews.AreaPickerDialogUtil;
+import gmcc.bsmonitor.date.GetDateToDBAsyncTask;
+import gmcc.bsmonitor.db.MySQLiteHelper;
+import gmcc.bsmonitor.model.BaseStationInfo;
+import gmcc.bsmonitor.utils.URLs;
+import gmcc.bsmonitor.views.AreaPickerDialogUtil;
 import gmcc.bsmonitor.model.BaseStation;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int TASK_SET_INFO_LIST_OK = 10002;
 
     private DrawerLayout mDrawerLayout;
     private ViewPager mViewPager;
@@ -54,53 +64,87 @@ public class MainActivity extends AppCompatActivity {
     private TextView mCityName;
 
     private TestData mTestDate;
-    private ArrayList<BaseStation> mBaseStationInfo;
+    private ArrayList<BaseStationInfo> mBaseStationInfo;
     private ArrayList<String> mAlarmList;
 
-    private Button mBtnTest;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case GetDateToDBAsyncTask.TASK_RESULT_OK:
+                    Toast.makeText(MainActivity.this, "加载成功。。。", Toast.LENGTH_SHORT).show();
+
+                    new QueryAsyncTask().execute();
+                    break;
+                case GetDateToDBAsyncTask.TASK_RESULT_ERROR:
+                    Toast.makeText(MainActivity.this, "加载失败。。。", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("注意")
+                            .setMessage("是否尝试再次联网加载数据？")
+                            .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new GetDateToDBAsyncTask(MainActivity.this, mHandler).execute(URLs.URL_GET_ALL);
+                                }
+                            })
+                            .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                    break;
+                case TASK_SET_INFO_LIST_OK:
+                    Toast.makeText(MainActivity.this, "正在绘制地图。。。",Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         initView();
         initListenner();
         setupViewPager();
 
-    }
-
-    private void prepareTestDate() {
-        mTestDate = new TestData();
-        mAlarmList = new ArrayList<>();
-
-        mTestDate.registerObserver(mGISFragment);
-        mTestDate.registerObserver(mListFragment);
-
-        mBaseStationInfo = new ArrayList<>();
-        mBaseStationInfo.add(new BaseStation(-863931008+"", 25.203121, 113.196419, 1));
-        mBaseStationInfo.add(new BaseStation(-1911315071+"", 23.27916, 116.74168, 1));
-        mBaseStationInfo.add(new BaseStation(-157504865+"", 23.95222092, 116.58280182, 1));
-        mBaseStationInfo.add(new BaseStation(476442012 + "", 24.8607878, 113.4332875, 1));
-        mBaseStationInfo.add(new BaseStation(700858277+"", 22.958901, 116.05301, 1));
-        mBaseStationInfo.add(new BaseStation(-1168781389 + "", 23.24641, 115.43156, 1));
-        mTestDate.setmBaseStationList(mBaseStationInfo);
-
-        mAlarmList.add("-863931008");
-        mAlarmList.add("-1911315071");
-        mAlarmList.add("700858277");
-        mAlarmList.add("476442012");
-        mAlarmList.add("-1168781389");
-        mAlarmList.add("-157504865");
-
-        int r = (int)(0+Math.random()*(5-0+1));
-        int s = (int)(1+Math.random()*(3-1+1));
-        Log.e("RandomNum","random num is-------->"+r);
-        mTestDate.setWarning(mAlarmList.get(r), s);
+        new GetDateToDBAsyncTask(this, this.mHandler).execute(URLs.URL_GET_ALL);
 
     }
 
+//    private void prepareTestDate() {
+//        mTestDate = new TestData();
+//        mAlarmList = new ArrayList<>();
+//
+//        mTestDate.registerObserver(mGISFragment);
+//        mTestDate.registerObserver(mListFragment);
+//
+//        mBaseStationInfo = new ArrayList<>();
+//        mBaseStationInfo.add(new BaseStation(-863931008+"", 25.203121, 113.196419, 1));
+//        mBaseStationInfo.add(new BaseStation(-1911315071+"", 23.27916, 116.74168, 1));
+//        mBaseStationInfo.add(new BaseStation(-157504865+"", 23.95222092, 116.58280182, 1));
+//        mBaseStationInfo.add(new BaseStation(476442012 + "", 24.8607878, 113.4332875, 1));
+//        mBaseStationInfo.add(new BaseStation(700858277+"", 22.958901, 116.05301, 1));
+//        mBaseStationInfo.add(new BaseStation(-1168781389 + "", 23.24641, 115.43156, 1));
+//        mTestDate.setmBaseStationList(mBaseStationInfo);
+//
+//        mAlarmList.add("-863931008");
+//        mAlarmList.add("-1911315071");
+//        mAlarmList.add("700858277");
+//        mAlarmList.add("476442012");
+//        mAlarmList.add("-1168781389");
+//        mAlarmList.add("-157504865");
+//
+//        int r = (int)(0+Math.random()*(5-0+1));
+//        int s = (int)(1+Math.random()*(3-1+1));
+//        Log.e("RandomNum","random num is-------->"+r);
+//        mTestDate.setWarning(mAlarmList.get(r), s);
+//
+//    }
 
 
     /**
@@ -170,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void setUpdateTimesEnable(boolean enable) {
@@ -214,16 +257,6 @@ public class MainActivity extends AppCompatActivity {
         mTextView_UpdateTimes_label = (TextView) findViewById(R.id.tv_UpdateTimes_label);
         mLayout_SetUpdateTimes = (LinearLayout) findViewById(R.id.ll_set_update_times);
 
-        //----------------------测试用-----------------------
-        mBtnTest = (Button) findViewById(R.id.btn_test);
-
-        mBtnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareTestDate();
-            }
-        });
-
         setUpdateTimesEnable(mSwitch.isChecked());
     }
 
@@ -261,6 +294,58 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    /**
+     * 后台遍历基站信息表
+     */
+    class QueryAsyncTask extends AsyncTask<Void, Void, ArrayList<BaseStationInfo>>{
+        private ProgressDialog dialog = null;
+
+        public QueryAsyncTask() {
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(MainActivity.this);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCancelable(false);
+            dialog.setMessage("正在刷新地图数据");
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<BaseStationInfo> doInBackground(Void... params) {
+
+            MySQLiteHelper helper = new MySQLiteHelper(MainActivity.this,"dbName",null,2);
+
+            mTestDate = new TestData();
+            mAlarmList = new ArrayList<>();
+
+            mTestDate.registerObserver(mGISFragment);
+            mTestDate.registerObserver(mListFragment);
+
+            mBaseStationInfo = helper.ReadAllBs();
+            if (mBaseStationInfo == null || mBaseStationInfo.size() == 0){
+                return null;
+            }
+
+            return mBaseStationInfo;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<BaseStationInfo> baseStationInfos) {
+            super.onPostExecute(baseStationInfos);
+
+            if (baseStationInfos==null || baseStationInfos.size() == 0){
+                return;
+            }
+            mHandler.sendEmptyMessage(TASK_SET_INFO_LIST_OK);
+            mTestDate.setmBaseStationList(baseStationInfos);
+            dialog.dismiss();
+        }
     }
 
 

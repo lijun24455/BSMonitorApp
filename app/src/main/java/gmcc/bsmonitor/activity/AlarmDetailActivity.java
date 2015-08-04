@@ -75,14 +75,15 @@ public class AlarmDetailActivity extends AppCompatActivity {
      */
     private void initAppbar() {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
         setSupportActionBar(toolbar);
+//        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
 
 
         CollapsingToolbarLayout collapsingToolbar =
@@ -122,7 +123,6 @@ public class AlarmDetailActivity extends AppCompatActivity {
 //        }
         switch (id){
             case R.id.item_share:
-
                 break;
             case R.id.item_speak:
                 break;
