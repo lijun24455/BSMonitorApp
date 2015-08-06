@@ -6,4 +6,5 @@ package gmcc.bsmonitor.utils;
 public class URLs {
 
     public static String URL_GET_ALL = "http://115.28.69.135/BSMonitorServer/bs/getAll";
+
 }

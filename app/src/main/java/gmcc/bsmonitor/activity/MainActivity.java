@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -271,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
 
         List<Fragment> fragments = new ArrayList<>();
         mGISFragment = GISFragment.newInstance(null, null);
-        mListFragment = ListFragment.newInstance(null, null);
+        mListFragment = ListFragment.newInstance(null, null, this);
         fragments.add(mGISFragment);
         fragments.add(mListFragment);
 

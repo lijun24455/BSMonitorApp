@@ -1,8 +1,11 @@
 package gmcc.bsmonitor.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +40,10 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
     private String mParam1;
     private String mParam2;
 
+
+
+    private Context mContext;
+
     //总览，正常，退服和断电的入口
     private LinearLayout mBtnOverall;
     private LinearLayout mBtnNormal;
@@ -62,17 +69,19 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1, String param2) {
+    public static ListFragment newInstance(String param1, String param2, Context context) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        fragment.setmContext(context);
         return fragment;
     }
 
     public ListFragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -135,20 +144,45 @@ public class ListFragment extends Fragment implements View.OnClickListener, Obse
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(mContext, AlarmListActivity.class);
+        Bundle bundle = null;
         switch (v.getId()){
             case R.id.ll_list_overall:
-                //跳转
+                //跳转总览列表
+                bundle = new Bundle();
+                bundle.putSerializable("ALARM", currentStationList);
+                intent.putExtra("BUNDLE", bundle);
                 break;
             case R.id.ll_list_normal:
+                bundle = new Bundle();
+                ArrayList<BaseStationInfo> normalStationInfos = TestData.getNormalBaseStationInfos(currentStationList);
+                bundle.putSerializable("ALARM", normalStationInfos);
+                intent.putExtra("BUNDLE", bundle);
                 break;
             case R.id.ll_list_out_of_service:
+                bundle = new Bundle();
+                ArrayList<BaseStationInfo> serviceOutStationInfos = TestData.getServiceOutBaseStationInfos(currentStationList);
+                bundle.putSerializable("ALARM", serviceOutStationInfos);
+                intent.putExtra("BUNDLE", bundle);
                 break;
             case R.id.ll_list_power_off:
+                bundle = new Bundle();
+                ArrayList<BaseStationInfo> powerOffStationInfos = TestData.getPowerOffBaseStationInfos(currentStationList);
+                bundle.putSerializable("ALARM", powerOffStationInfos);
+                intent.putExtra("BUNDLE", bundle);
                 break;
             default:
                 break;
         }
+        startActivity(intent);
+    }
 
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     @Override

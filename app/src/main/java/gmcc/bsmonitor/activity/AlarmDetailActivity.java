@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import gmcc.bsmonitor.R;
+import gmcc.bsmonitor.model.BaseStationInfo;
 import gmcc.bsmonitor.utils.SystemUtils;
 
 
@@ -28,46 +30,85 @@ public class AlarmDetailActivity extends AppCompatActivity {
 
     private View mShadowColor;  //收缩栏上的覆盖透明色，根据告警类型设置为相应颜色
 
+    private LinearLayout mAlarmDetailBlock;
+
     private TextView mAlarmLocation;
-    private TextView mAlarmState;
+    private TextView mAlarmDeviceType;
     private TextView mAlarmDate;
-    private TextView mAlarmLocationObject;
-    private TextView mAlarmLevel;
-    private TextView mNetworkType;
+    private TextView mAlarmClearDate;
+    private TextView mAlarmManufactureLevel;
+    private TextView mAlarmNetAdminLevel;
+    private TextView mAlarmManufactoryID;
+    private TextView mAlarmNetAdminID;
+
+    private TextView mNetworkName;
     private TextView mDeviceManufacture;
     private TextView mDeviceType;
     private TextView mDeviceSerialId;
+
+    private BaseStationInfo mBaseStationInfo;
+
     private View mRootView;
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_detail);
-
+        initData();
         initAppbar();
-
         initView();
+    }
 
+    private void initData() {
+        try{
+            Intent intent = getIntent();
+            this.mBaseStationInfo = (BaseStationInfo) intent.getSerializableExtra("ALARM");
+        }catch (Exception e){
+            e.printStackTrace();
+            finish();
+        }
     }
 
     private void initView() {
 
         mRootView = findViewById(R.id.main_content);
-
         mShadowColor = findViewById(R.id.v_shadow_color);
 
+        mAlarmDetailBlock = (LinearLayout) findViewById(R.id.ll_alarm_detail_block);
+
         mAlarmLocation = (TextView) findViewById(R.id.tv_alarm_detail_location);
-        mAlarmState = (TextView) findViewById(R.id.tv_alarm_detail_state);
+        mAlarmDeviceType = (TextView) findViewById(R.id.tv_alarm_detail_device_type);
         mAlarmDate = (TextView) findViewById(R.id.tv_alarm_detail_date);
-        mAlarmLocationObject = (TextView) findViewById(R.id.tv_alarm_detail_location_object);
-        mAlarmLevel = (TextView) findViewById(R.id.tv_alarm_detail_level);
-        mNetworkType = (TextView) findViewById(R.id.tv_alarm_detail_network_type);
-        mDeviceManufacture = (TextView) findViewById(R.id.tv_alarm_detail_device_manufacture);
-        mDeviceType = (TextView) findViewById(R.id.tv_alarm_detail_device_type);
-        mDeviceSerialId = (TextView) findViewById(R.id.tv_alarm_detail_device_serial_id);
+        mAlarmClearDate = (TextView) findViewById(R.id.tv_alarm_detail_date_clear);
+        mAlarmManufactureLevel = (TextView) findViewById(R.id.tv_alarm_detail_manufacture_level);
+        mAlarmNetAdminLevel = (TextView) findViewById(R.id.tv_alarm_detail_net_admin_level);
+        mAlarmManufactoryID = (TextView) findViewById(R.id.tv_alarm_detail_alarm_id_manufacture);
+        mAlarmNetAdminID = (TextView) findViewById(R.id.tv_alarm_detail_alarm_id_net_admin);
+
+        mNetworkName = (TextView) findViewById(R.id.tv_alarm_detail_station_name);
+        mDeviceManufacture = (TextView) findViewById(R.id.tv_alarm_detail_station_device_manufacture);
+        mDeviceType = (TextView) findViewById(R.id.tv_alarm_detail_station_device_type);
+        mDeviceSerialId = (TextView) findViewById(R.id.tv_alarm_detail_station_device_id);
+
+        if (mBaseStationInfo.getWarningTitle().contentEquals("null")){
+            mAlarmDetailBlock.setVisibility(View.GONE);
+        }
+
+        mAlarmLocation.setText(mBaseStationInfo.getCity());
+        mAlarmDeviceType.setText(mBaseStationInfo.getWarningDeviceType());
+        mAlarmDate.setText(mBaseStationInfo.getWarningHappenTime());
+        mAlarmClearDate.setText(mBaseStationInfo.getWarningClearTime());
+        mAlarmManufactureLevel.setText(mBaseStationInfo.getWarningFactoryLevel());
+        mAlarmNetAdminLevel.setText(mBaseStationInfo.getWarningNetAdminLevel());
+        mAlarmManufactoryID.setText(mBaseStationInfo.getFactoryId());
+        mAlarmNetAdminID.setText(mBaseStationInfo.getWarningNetAdminId());
+
+        mNetworkName.setText(mBaseStationInfo.getBtsName());
+        mDeviceManufacture.setText(mBaseStationInfo.getFactoryName());
+        mDeviceType.setText(mBaseStationInfo.getDeviceType());
+        mDeviceSerialId.setText(mBaseStationInfo.getBtsId());
+
     }
 
     /**

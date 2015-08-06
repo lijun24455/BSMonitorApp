@@ -28,6 +28,167 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_alarm_detail_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/BS_Devide_Line_15"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="告警对象设备类型:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_device_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="等待派单."
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="告警发生时间:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2015-07-17 11:43:14"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="告警清除时间:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_date_clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="深圳三和村F-HLH2"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="厂家告警级别:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_manufacture_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="二级告警"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="网管告警级别:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_net_admin_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="二级告警"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="厂家告警ID:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_alarm_id_manufacture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="二级告警"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="网管告警ID:"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="@style/PrimaryText_Black_87"/>
+            <TextView
+                android:id="@+id/tv_alarm_detail_alarm_id_net_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="二级告警"
+                android:textAppearance="@style/SecondText_Black_54"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/BS_Devide_Line_15"/>
@@ -43,101 +204,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="当前状态:"
+            android:text="网元名称:"
             android:layout_marginBottom="4dp"
             android:textAppearance="@style/PrimaryText_Black_87"/>
         <TextView
-            android:id="@+id/tv_alarm_detail_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="等待派单."
-            android:textAppearance="@style/SecondText_Black_54"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="告警发生时间:"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="@style/PrimaryText_Black_87"/>
-        <TextView
-            android:id="@+id/tv_alarm_detail_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2015-07-17 11:43:14"
-            android:textAppearance="@style/SecondText_Black_54"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="告警定位对象:"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="@style/PrimaryText_Black_87"/>
-        <TextView
-            android:id="@+id/tv_alarm_detail_location_object"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="深圳三和村F-HLH2"
-            android:textAppearance="@style/SecondText_Black_54"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="告警级别:"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="@style/PrimaryText_Black_87"/>
-        <TextView
-            android:id="@+id/tv_alarm_detail_level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="二级告警"
-            android:textAppearance="@style/SecondText_Black_54"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/BS_Devide_Line_15"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="网络类型:"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="@style/PrimaryText_Black_87"/>
-        <TextView
-            android:id="@+id/tv_alarm_detail_network_type"
+            android:id="@+id/tv_alarm_detail_station_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="LTE无线."
@@ -158,7 +229,7 @@
             android:layout_marginBottom="4dp"
             android:textAppearance="@style/PrimaryText_Black_87"/>
         <TextView
-            android:id="@+id/tv_alarm_detail_device_manufacture"
+            android:id="@+id/tv_alarm_detail_station_device_manufacture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="华为"
@@ -179,7 +250,7 @@
             android:layout_marginBottom="4dp"
             android:textAppearance="@style/PrimaryText_Black_87"/>
         <TextView
-            android:id="@+id/tv_alarm_detail_device_type"
+            android:id="@+id/tv_alarm_detail_station_device_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ENodeB"
@@ -196,11 +267,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="设备型号:"
+            android:text="厂家原始ID:"
             android:layout_marginBottom="4dp"
             android:textAppearance="@style/PrimaryText_Black_87"/>
         <TextView
-            android:id="@+id/tv_alarm_detail_device_serial_id"
+            android:id="@+id/tv_alarm_detail_station_device_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BTS3012"

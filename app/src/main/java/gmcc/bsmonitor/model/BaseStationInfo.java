@@ -1,10 +1,12 @@
 package gmcc.bsmonitor.model;
 
+import java.io.Serializable;
+
 /**
  * 基站信息实体类
  * Created by lijun on 15/8/2.
  */
-public class BaseStationInfo {
+public class BaseStationInfo implements Serializable {
 
 //      基站信息--------------------------------------
     private String btsId;               //基站ID

@@ -1,6 +1,7 @@
 package gmcc.bsmonitor.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,8 @@ public class GISFragment extends Fragment implements View.OnClickListener, Obser
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Context mContext;
 
     private MapView mapView;
 
